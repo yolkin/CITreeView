@@ -143,7 +143,7 @@ public class CITreeViewController:NSObject  {
         return collapsedTreeViewNode
     }
     @discardableResult
-    func expandRows(atIndexPath indexPath:IndexPath, with selectedTreeViewNode:CITreeViewNode, openWithChildrens:Bool) -> Int{
+    func expandRows(atIndexPath indexPath:IndexPath, with selectedTreeViewNode:CITreeViewNode, openWithChildrens:Bool) -> Int {
         guard let treeViewControllerDelegate = self.treeViewControllerDelegate else {return 0}
         let treeViewNodeChildren = treeViewControllerDelegate.getChildren(forTreeViewNodeItem: selectedTreeViewNode.item, with: indexPath)
         indexPathsArray = [IndexPath]()
@@ -191,6 +191,15 @@ public class CITreeViewController:NSObject  {
                 indexPath = getIndexPathOfTreeViewNode(treeViewNode: treeViewNode)
                 indexPath.row = expandRows(atIndexPath: indexPath, with: treeViewNode, openWithChildrens: true)
                 
+            }
+        }
+    }
+    
+    func expandRowAt(indexPath: IndexPath) {
+        indexPathsArray = [IndexPath]()
+        for treeViewNode in treeViewNodes {
+            if indexPath == getIndexPathOfTreeViewNode(treeViewNode: treeViewNode) && !treeViewNode.expand {
+                let _ = expandRows(atIndexPath: indexPath, with: treeViewNode, openWithChildrens: true)
             }
         }
     }
